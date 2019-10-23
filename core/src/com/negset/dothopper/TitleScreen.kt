@@ -29,5 +29,7 @@ class TitleScreen(private val game: DotHopper) : KtxScreen {
 
     override fun dispose() {
         title.dispose()
+        titleMsg.dispose()
+        copyright.dispose()
     }
 }
