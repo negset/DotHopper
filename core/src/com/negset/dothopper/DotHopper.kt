@@ -17,4 +17,9 @@ class DotHopper : KtxGame<Screen>(clearScreen = false) {
         clearScreen(1f, 1f, 1f, 1f)
         super.render()
     }
+
+    override fun dispose() {
+        SoundPlayer.dispose()
+        super.dispose()
+    }
 }
