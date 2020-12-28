@@ -59,7 +59,6 @@ data class Segment(val s: Vector2, val v: Vector2) {
         val t1 = crsVV2 / crsV1V2
         val t2 = crsVV1 / crsV1V2
 
-        // 交差していない
         val eps = 0.00001f
         return t1 in 0 - eps..1 + eps && t2 in 0 - eps..1 + eps
     }
