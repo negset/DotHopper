@@ -26,7 +26,7 @@ class Collision(
             }
             // 足場への上陸判定
             player.vy < 0 -> for (foothold in footholds) {
-                if (collisionSegments(player.segment, foothold.segment)) {
+                if (player.segment.intersects(foothold.segment)) {
                     player.land(foothold)
                     if (foothold.isGoal) {
                         isStageClear = true
@@ -38,7 +38,7 @@ class Collision(
         }
 
         for (enemy in enemies) {
-            if (collisionSegments(player.segment, enemy.segment)) {
+            if (player.segment.intersects(enemy.segment)) {
                 player.run { y = if (vy < 0) enemy.y else enemy.bottom - h }
                 SoundPlayer.dead.play()
                 isGameOver = true
@@ -46,31 +46,25 @@ class Collision(
             }
         }
     }
+}
 
-    /**
-     * 2つの線分が交差しているか否かを調べる
-     */
-    private fun collisionSegments(seg1: Segment, seg2: Segment): Boolean {
-        val v = seg2.s - seg1.s
-        val crsV1V2 = seg1.v x seg2.v
+data class Segment(val s: Vector2, val v: Vector2) {
+    fun intersects(seg: Segment): Boolean {
+        val sv = seg.s - s
+        val crsV1V2 = v x seg.v
 
         // 平行
         if (crsV1V2 == 0f)
             return false
 
-        val crsVV1 = v x seg1.v
-        val crsVV2 = v x seg2.v
+        val crsVV1 = sv x v
+        val crsVV2 = sv x seg.v
 
         val t1 = crsVV2 / crsV1V2
         val t2 = crsVV1 / crsV1V2
 
         // 交差していない
         val eps = 0.00001f
-        if (t1 + eps < 0 || t1 - eps > 1 || t2 + eps < 0 || t2 - eps > 1)
-            return false
-
-        return true
+        return t1 in 0 - eps..1 + eps && t2 in 0 - eps..1 + eps
     }
 }
-
-data class Segment(val s: Vector2, val v: Vector2)
