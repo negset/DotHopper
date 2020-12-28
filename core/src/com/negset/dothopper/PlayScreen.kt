@@ -18,7 +18,6 @@ class PlayScreen(
     private val player = Player()
     private val footholds: List<Foothold>
     private val enemies: List<Enemy>
-    private val collision: Collision
 
     private val camera = OrthographicCamera().apply {
         setToOrtho(false, WIDTH, HEIGHT)
@@ -39,7 +38,10 @@ class PlayScreen(
             footholds = it.footholds
             enemies = it.enemies
         }
-        collision = Collision(player, footholds, enemies)
+        Collision.run {
+            isGameOver = false
+            isStageClear = false
+        }
 
         updateCamera()
     }
@@ -57,12 +59,12 @@ class PlayScreen(
             enemies.forEach { e -> e.draw(it) }
 
             when {
-                collision.isGameOver -> {
+                Collision.isGameOver -> {
                     it.projectionMatrix = uiCamera.combined
                     it.drawCentered(gameOver, WIDTH / 2, 500f)
                     it.drawCentered(gameOverMsg, WIDTH / 2, 150f)
                 }
-                collision.isStageClear -> {
+                Collision.isStageClear -> {
                     it.projectionMatrix = uiCamera.combined
                     if (stageNum < STAGE_NUM_MAX) {
                         it.drawCentered(stageClear, WIDTH / 2, 500f)
@@ -79,7 +81,7 @@ class PlayScreen(
     private fun update(delta: Float) {
         when {
             // ゲームオーバー時
-            collision.isGameOver ->
+            Collision.isGameOver ->
                 if (isKeyPressed(Input.Keys.SPACE)) {
                     // 再プレイ
                     game.run {
@@ -90,7 +92,7 @@ class PlayScreen(
                     dispose()
                 }
             // ステージクリア時
-            collision.isStageClear ->
+            Collision.isStageClear ->
                 if (stageNum < STAGE_NUM_MAX && isKeyPressed(Input.Keys.SPACE)) {
                     // 次のステージへ
                     game.run {
@@ -104,7 +106,7 @@ class PlayScreen(
             else -> {
                 player.update(delta)
                 enemies.forEach { it.update(delta) }
-                collision.update()
+                Collision.update(player, footholds, enemies)
             }
         }
 

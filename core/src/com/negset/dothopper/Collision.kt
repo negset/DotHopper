@@ -7,15 +7,11 @@ import com.negset.dothopper.gameobject.Player
 import ktx.math.minus
 import ktx.math.x
 
-class Collision(
-    private val player: Player,
-    private val footholds: List<Foothold>,
-    private val enemies: List<Enemy>
-) {
+object Collision {
     var isGameOver = false
     var isStageClear = false
 
-    fun update() {
+    fun update(player: Player, footholds: List<Foothold>, enemies: List<Enemy>) {
         when {
             // 足場からの落下判定
             !player.isHopping -> player.run {
