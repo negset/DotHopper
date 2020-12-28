@@ -11,10 +11,13 @@ class Player : GameObject() {
 
     var vx = 0f
     var vy = 0f
+
     /** 浮いているか否か */
     var isHopping = true
+
     /** 現在乗っている足場 */
     var foothold: Foothold? = null
+
     /** 衝突判定用の線分 */
     val segment
         get() = Segment(vec2(x + w / 2, y), vec2(vx, vy))

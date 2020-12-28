@@ -5,13 +5,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.negset.dothopper.gameobject.Enemy
-import com.negset.dothopper.gameobject.Player
 import com.negset.dothopper.gameobject.Foothold
+import com.negset.dothopper.gameobject.Player
 import ktx.app.KtxScreen
 import ktx.graphics.use
 
-class PlayScreen(private val game: DotHopper,
-                 private val stageNum: Int) : KtxScreen {
+class PlayScreen(
+    private val game: DotHopper,
+    private val stageNum: Int
+) : KtxScreen {
     private val batch = SpriteBatch()
     private val player = Player()
     private val footholds: List<Foothold>

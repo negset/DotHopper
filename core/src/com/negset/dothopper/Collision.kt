@@ -2,14 +2,16 @@ package com.negset.dothopper
 
 import com.badlogic.gdx.math.Vector2
 import com.negset.dothopper.gameobject.Enemy
-import com.negset.dothopper.gameobject.Player
 import com.negset.dothopper.gameobject.Foothold
+import com.negset.dothopper.gameobject.Player
 import ktx.math.minus
 import ktx.math.x
 
-class Collision(private val player: Player,
-                private val footholds: List<Foothold>,
-                private val enemies: List<Enemy>) {
+class Collision(
+    private val player: Player,
+    private val footholds: List<Foothold>,
+    private val enemies: List<Enemy>
+) {
     var isGameOver = false
     var isStageClear = false
 

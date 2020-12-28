@@ -9,6 +9,7 @@ import kotlin.random.Random
 
 class Enemy(x: Float, y: Float, w: Float) : GameObject() {
     private val texture = Texture("enemy.png")
+
     // TODO: player幅のベタ書きをやめる
     val segment = Segment(vec2(x - 10, y), vec2(w + 20, 0f))
 
